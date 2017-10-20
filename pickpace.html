@@ -1,0 +1,473 @@
+<HTML>
+ <head>
+  <title> game2 </title>
+ </head>
+
+<body>
+ <canvas id=myCanvas width=1850 height=400 style="background-color: lightblue;"> 
+ </canvas>
+ <button id="l1">Level 1</button>
+ <button id="l2">Level 2</button>
+ <button id="l3">Level 3</button>
+ <button id="l4">Level 4</button>
+ <button id="l5">Level 5</button>
+ <button id="l6">Level 6</button>
+ <button id="l7">Level 7</button>
+ <button id="l8">Level 8</button>
+ <button id="l9">Level 9</button>
+ <button id="l10">Level 10</button>
+
+ <p id="l"></p>
+ <script>
+  var ctx = myCanvas.getContext("2d");
+  var y_pos=285;
+  var x_pos=10;
+  var color="black";
+  //x,y,width,height
+  var plat=[
+      [ [0,300,100,100],[0,390,100,10],[260,300,100,10],[360,230,80,10],[300,170,20,10],[5,200,25,10],[30,130,30,10],[130,90,50,10],/*[0,300,1850,10],*/[330,70,50,10],[680,90,200,10]  ],
+    [[0,300,30,10],[30,390,150,10]],
+    [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      
+  ];
+  //x,y,width,height
+  var bou=[
+      [ [490,80,50,10],[580,90,50,10]   ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      
+      ];
+  //    x,y,direction,distance
+  var sav=[
+      [ [840,80,4,150]  ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      [     ],
+      
+  ];
+  var fir=[];
+  function mytimer(){
+      
+      ctx.clearRect(0,0,myCanvas.width,myCanvas.height);
+        //platforms
+      ctx.fillStyle="lime";
+      for(var i=0;i<plat[level].length;i++){
+                    ctx.fillRect(plat[level][i][0],plat[level][i][1],plat[level][i][2],plat[level][i][3]);
+
+      }
+      
+      ctx.fillStyle="#00cc3d";
+      for(var i=0;i<plat[level].length;i++){
+          ctx.beginPath();
+      ctx.moveTo(plat[level][i][0],plat[level][i][1]+plat[level][i][3]);
+          ctx.lineTo(plat[level][i][0]+ 5,plat[level][i][1]+plat[level][i][3]+ 5);
+          ctx.lineTo(plat[level][i][0]+ 5 +plat[level][i][2],plat[level][i][1]+plat[level][i][3]+ 5);
+          ctx.lineTo(plat[level][i][0]+ 5 +plat[level][i][2],plat[level][i][1]+ 5);
+          ctx.lineTo(plat[level][i][0] +plat[level][i][2],plat[level][i][1]);
+          ctx.lineTo(plat[level][i][0] +plat[level][i][2],plat[level][i][1] + plat[level][i][3]);
+          ctx.fill();
+      }
+      //bouncies
+      ctx.fillStyle="#8f01a5";
+      for(var i=0;i<bou[level].length;i++){
+         ctx.fillRect(bou[level][i][0],bou[level][i][1],bou[level][i][2],bou[level][i][3]);
+          
+      }
+      //shooty things
+      ctx.fillStyle="#7a7a7a";
+       for(var i=0;i<sav[level].length;i++){
+           if(sav[level][i][2]==4){
+           ctx.beginPath();
+           ctx.moveTo(sav[level][i][0] + 2,sav[level][i][1]);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0],sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0],sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1]);
+           ctx.fill();
+           }else if(sav[level][i][2]==3){
+               ctx.beginPath();
+           ctx.moveTo(sav[level][i][0],sav[level][i][1]);
+           ctx.lineTo(sav[level][i][0],sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1]);
+           ctx.fill();
+           }else if(sav[level][i][2]==2){
+               ctx.beginPath();
+           ctx.moveTo(sav[level][i][0],sav[level][i][1]);
+           ctx.lineTo(sav[level][i][0],sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 8);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1]);
+           ctx.fill();
+           }else if(sav[level][i][2]==1){
+               ctx.beginPath();
+           ctx.moveTo(sav[level][i][0],sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 2,sav[level][i][1]);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1]);
+           ctx.lineTo(sav[level][i][0] + 8,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 2);
+           ctx.lineTo(sav[level][i][0] + 10,sav[level][i][1] + 10);
+           ctx.lineTo(sav[level][i][0],sav[level][i][1] + 10);
+           ctx.fill();
+           }
+       }
+      //player
+      ctx.fillStyle=color;
+      ctx.fillRect(x_pos,y_pos,10,10);
+      //fireballs
+      ctx.fillStyle="#ff9900";
+      for(i=0;i<fir.length;i++){
+          ctx.beginPath();
+          ctx.arc(fir[i][0],fir[i][1],4,0,2*pi);
+          ctx.fill();
+      }
+      //borders
+      if(x_pos<0){
+          x_pos=0;
+          y_pos--;
+          key_left = false;
+          key_right = false;
+          dir = 0;
+          acc = 0;
+      }
+       if(x_pos>1840){
+          x_pos=1840;
+          y_pos--;
+          key_left = false;
+          key_right = false;
+          dir =0;
+          acc = 0;
+      }
+      for(i=0;i<fir.length;i++){
+         if(fir[i][3]>=fir[i][4]){
+             ctx.clearRect(fir[i][0] - 4, fir[i][1] - 4,8,8);
+             fir.splice(i,1);
+         }
+      }
+         for(i=0;i<fir.length;i++){
+             if((x_pos>fir[i][0]- 14 && x_pos + 10<fir[i][0] + 14)  &&  (y_pos>fir[i][1] - 14 && y_pos + 10<fir[i][1] + 14)){
+                 respawn();
+             }
+         }
+         if(y_pos==390){
+             respawn();
+         }
+      setTimeout(mytimer,10);
+  }
+  
+  
+  function grav(){
+      fall=true;
+      for(var i=0;i<plat[level].length;i++){
+        if(ju==true ||( y_pos==plat[level][i][1]- 10 && x_pos>plat[level][i][0]- 10 && x_pos<plat[level][i][0] + plat[level][i][2])){
+            fall=false;
+            
+        }
+        
+    }
+    for(var i=0;i<bou[level].length;i++){
+        if(( y_pos==bou[level][i][1]- 10 && x_pos>bou[level][i][0]- 10 && x_pos<bou[level][i][0] + bou[level][i][2])){
+            fall=false;
+            var bounce=true;
+            ysp=ysp*2- 40;
+        }
+    }
+      if((y_pos!=390) && fall== true ){
+          
+          
+              y_pos=y_pos+ 1;
+              
+      
+  }
+  
+  if(ju==true){
+      y_pos=ysp+y_pos;
+      ysp=ysp+ 2;
+      if(ysp==0){
+          ju=false;
+      }
+  }
+   if(bounce==true){
+       if(ysp< -80){ysp= -80;}
+      y_pos=ysp+y_pos;
+      ysp=ysp+ 2;
+      if(ysp==0){
+          bounce=false;
+          ysp=-18;
+      }
+  }
+  setTimeout(grav,10);
+}
+function handleKeyDown(event)
+    {
+        if (event.keyCode == 37) 
+                key_left = true;
+        else if (event.keyCode == 39)
+            key_right = true;
+    }
+
+function handleKeyUp(event)
+    {
+           if (event.keyCode == 37) 
+                key_left = false;
+           else if (event.keyCode == 39)
+                key_right = false;
+    }
+    
+ 
+    function MOVEBOI(){
+      if (key_left)
+    {
+        
+        
+      acc--;
+      dir = -1;
+    }
+
+
+    if (key_right)
+    {
+        
+        
+        acc++;
+        dir = 1;
+    }
+
+
+    if (acc > maxsp)
+        acc = maxsp;
+    if (acc < -maxsp)
+        acc = -maxsp;
+
+
+    if (!key_left && !key_right)
+        {
+               pixelx = 0;
+               acc = 0;
+        }
+
+    else
+        {      
+               pixelx += acc;
+        }
+
+
+x_pos = x_pos + pixelx;
+playerdir = dir;
+setTimeout(MOVEBOI,50);
+    }
+    function jump(){
+        for(var i=0;i<plat[level].length;i++){
+            if(y_pos==plat[level][i][1]- 10 && x_pos>plat[level][i][0]- 10 && x_pos<plat[level][i][0] + plat[level][i][2]){
+                t=0;
+            }
+        if(t<2 || y_pos==plat[level][i][1]- 10 && x_pos>plat[level][i][0]- 10 && x_pos<plat[level][i][0] + plat[level][i][2]){
+            
+        
+        if (event.keyCode == 38 ) {
+            ysp=-18;
+            ju=true;
+            t++;
+        }
+        }
+        }
+    }
+    function cancelArrowKeys(e) {
+         try {
+             var e = window.event || e
+
+
+
+
+             var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+
+
+
+
+             if (key == 37 || key == 38 || key == 39 || key == 40 || key == 13) {
+                 if (key == 13)
+                     document.getElementById('<%=btnFightPokemon.ClientID%>').click();
+                 if (key == 37)
+                     document.getElementById('<%=ImgBtnWest.ClientID%>').click();
+                 if (key == 38)
+                     document.getElementById('<%=ImgBtnNorth.ClientID%>').click();
+                 if (key == 39)
+                     document.getElementById('<%=ImgBtnEast.ClientID%>').click();
+                 if (key == 40)
+                     document.getElementById('<%=ImgBtnSouth.ClientID%>').click();
+
+
+                 event.returnValue = false;
+            }
+        }
+         catch (Exception) {
+             return false;
+         }
+
+
+     }
+     function respawn(){
+         
+             key_left = false;
+             key_right = false;
+             dir = 1;
+             acc = 0;
+             ctx.clearRect(x_pos- 4,y_pos- 4,18,18);
+             y_pos=285;
+             x_pos=10;
+            
+             
+         
+          
+        
+     }
+     function fireball(){
+         for(var i2=0;i2<sav[level].length;i2++){
+            ctx.beginPath();
+            if(sav[level][i2][2]==4){
+                ctx.arc(sav[level][i2][0] - 4,sav[level][i2][1] + 5,4,0,2*pi);
+                fir.push([sav[level][i2][0] - 4,sav[level][i2][1] + 5,4,0,sav[level][i2][3]]);
+            }else if(sav[level][i2][2]==3){
+                ctx.arc(sav[level][i2][0] + 5,sav[level][i2][1] + 14,4,0,2*pi);
+                fir.push([sav[level][i2][0] + 5,sav[level][i2][1] + 14,3,0,sav[level][i2][3]]);
+            }else if(sav[level][i2][2]==2){
+                ctx.arc(sav[level][i2][0] + 14,sav[level][i2][1] + 5,4,0,2*pi);
+                fir.push([sav[level][i2][0] + 14,sav[level][i2][1] + 5,2,0,sav[level][i2][3]]);
+            }else if(sav[level][i2][2]==1){
+                ctx.arc(sav[level][i2][0] + 5,sav[level][i2][1] - 4,4,0,2*pi);
+                fir.push([sav[level][i2][0] + 5,sav[level][i2][1] - 4,1,0,sav[level][i2][3]]);
+            }
+            ctx.fill();
+         }
+        setTimeout(fireball,1500);
+     }
+      function fireballmove(){
+         for(var i3=0;i3<fir.length;i3++){
+             ctx.clearRect(fir[i3][0] - 4, fir[i3][1] - 4,8,8);
+             if(fir[i3][2]==4){
+                 fir[i3][0]=fir[i3][0] - 4;
+                 fir[i3][3]=fir[i3][3] + 4;
+             }else if(fir[i3][2]==3){
+                 fir[i3][1]=fir[i3][1] + 4;
+                 fir[i3][3]=fir[i3][3] + 4;
+             }else if(fir[i3][2]==2){
+                 fir[i3][0]=fir[i3][0] + 4;
+                 fir[i3][3]=fir[i3][3] + 4;
+             }else if(fir[i3][2]==1){
+                 fir[i3][1]=fir[i3][1] - 4;
+                 fir[i3][3]=fir[i3][3] + 4;
+             }
+             ctx.beginPath();
+             ctx.arc(fir[i3][0],fir[i3][1],4,0,2*pi);
+             ctx.fill();
+         }
+        setTimeout(fireballmove,100);
+     }
+     l1.onclick=function(){
+         level=0;
+         fir=[];
+         respawn();
+     }
+      l2.onclick=function(){
+         level=1;
+         fir=[];
+         respawn();
+     }
+      l3.onclick=function(){
+         level=2;
+         fir=[];
+         respawn();
+     }
+     l4.onclick=function(){
+         level=3;
+         fir=[];
+         respawn();
+     }
+     l5.onclick=function(){
+         level=4;
+         fir=[];
+         respawn();
+     }
+     l6.onclick=function(){
+         level=5;
+         fir=[];
+         respawn();
+     }
+     l7.onclick=function(){
+         level=6;
+         fir=[];
+         respawn();
+     }
+     l8.onclick=function(){
+         level=7;
+         fir=[];
+         respawn();
+     }
+     l9.onclick=function(){
+         level=8;
+         fir=[];
+         respawn();
+     }
+     l10.onclick=function(){
+         level=9;
+         fir=[];
+         respawn();
+     }
+setTimeout(MOVEBOI,50);
+setTimeout(grav,10);
+
+setTimeout(mytimer,10);
+setTimeout(fireball,0);
+setTimeout(fireballmove,100);
+window.addEventListener('keydown', handleKeyDown, true);
+window.addEventListener('keyup', handleKeyUp, true);
+var level=0;
+var pi=Math.PI;
+var del=false;
+var maxsp = 0.2;
+var acc = 0;
+var pixelx = 0;
+var dir = 1;
+var key_left = false;
+var key_right = false;
+var ysp=0;
+var ju=false;
+var t=0;
+var fall=true;
+window.addEventListener('keydown', jump);
+
+document.onkeydown = cancelArrowKeys;
+</script>
+</body>
+</html> 
