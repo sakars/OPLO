@@ -183,12 +183,7 @@
          if(y_pos==390){
              respawn();
          }
-      setTimeout(mytimer,10);
-  }
-  
-  
-  function grav(){
-      fall=true;
+		 fall=true;
       for(var i=0;i<plat[level].length;i++){
         if(ju==true ||( y_pos==plat[level][i][1]- 10 && x_pos>plat[level][i][0]- 10 && x_pos<plat[level][i][0] + plat[level][i][2])){
             fall=false;
@@ -227,8 +222,11 @@
           ysp=-18;
       }
   }
-  setTimeout(grav,10);
-}
+      setTimeout(mytimer,10);
+  }
+  
+  
+  
 function handleKeyDown(event)
     {
         if (event.keyCode == 37) 
@@ -445,8 +443,6 @@ setTimeout(MOVEBOI,50);
          respawn();
      }
 setTimeout(MOVEBOI,50);
-setTimeout(grav,10);
-
 setTimeout(mytimer,10);
 setTimeout(fireball,0);
 setTimeout(fireballmove,100);
