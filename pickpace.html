@@ -1,6 +1,6 @@
 <HTML>
  <head>
-  <title> game2 </title>
+  <title> PickupThePace </title>
  </head>
 
 <body>
@@ -26,7 +26,7 @@
   //x,y,width,height
   var plat=[
       [ [0,300,100,100],[0,390,100,10],[260,300,100,10],[360,230,80,10],[300,170,20,10],[5,200,25,10],[30,130,30,10],[130,90,50,10],/*[0,300,1850,10],*/[330,70,50,10],[680,90,200,10]  ],
-    [[0,300,30,10],[30,390,150,10]],
+    [[0,300,1850,10],[0,200,1700,10],[1800,220,30,10],[150,100,1700,10],[20,120,30,10],],
     [     ],
       [     ],
       [     ],
@@ -54,7 +54,7 @@
   //    x,y,direction,distance
   var sav=[
       [ [840,80,4,150]  ],
-      [     ],
+      [ [60,210,3,150],[90,295,1,150],[150,210,3,150],[200,295,1,150],[230,210,3,150],[300,210,3,150],[310,210,3,150],[410,290,4,150],[420,290,2,150],[510,210,3,150],[520,210,3,150],[600,295,1,150],[620,210,3,150],[690,210,3,150],[700,295,1,150],[710,210,3,150],],
       [     ],
       [     ],
       [     ],
@@ -183,7 +183,12 @@
          if(y_pos==390){
              respawn();
          }
-		 fall=true;
+      setTimeout(mytimer,10);
+  }
+  
+  
+  function grav(){
+      fall=true;
       for(var i=0;i<plat[level].length;i++){
         if(ju==true ||( y_pos==plat[level][i][1]- 10 && x_pos>plat[level][i][0]- 10 && x_pos<plat[level][i][0] + plat[level][i][2])){
             fall=false;
@@ -222,11 +227,8 @@
           ysp=-18;
       }
   }
-      setTimeout(mytimer,10);
-  }
-  
-  
-  
+  setTimeout(grav,10);
+}
 function handleKeyDown(event)
     {
         if (event.keyCode == 37) 
@@ -339,41 +341,12 @@ setTimeout(MOVEBOI,50);
          
              key_left = false;
              key_right = false;
-             dir = 0;
+             dir = 1;
              acc = 0;
-			 pixelx=0;
              ctx.clearRect(x_pos- 4,y_pos- 4,18,18);
-			 if(level==0){
              y_pos=285;
              x_pos=10;
-            }else if(level==1){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==2){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==3){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==4){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==5){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==6){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==7){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==8){
-             y_pos=285;
-             x_pos=10;
-            }else if(level==9){
-             y_pos=285;
-             x_pos=10;
-            }
+            
              
          
           
@@ -472,6 +445,8 @@ setTimeout(MOVEBOI,50);
          respawn();
      }
 setTimeout(MOVEBOI,50);
+setTimeout(grav,10);
+
 setTimeout(mytimer,10);
 setTimeout(fireball,0);
 setTimeout(fireballmove,100);
